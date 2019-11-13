@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Orden de compra</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container my-5">
+        <div class="row" id="app">
+            <div class="col-lg-8 mb-4 mb-lg-0">
+                <h1>Orden de compra #{{order.number}}</h1>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>SKU</th>
+                                <td></td>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template v-for="item in order.items">
+                                <tr>
+                                    <td>{{item.sku}}</td>
+                                    <td class="text-center"><img v-if="item.imageUrl" height="100" :src="item.imageUrl" alt=""></td>
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.quantity}}</td>
+                                    <td>{{item.price}} {{order.currency}}</td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+                <button @click="showPayAlert" class="btn btn-success">Pagar</button>
+            </div>
+            <div class="col-lg-4">
+                <form @submit.prevent="addProduct" novalidate>
+                    <h3>Agregar producto a la lista</h3>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <input class="form-control" :class="{'border-danger': errors.sku}" type="text" placeholder="SKU" v-model="newProduct.sku" required>
+                        </div>
+                        <div class="form-group col-md-8">
+                            <input class="form-control" :class="{'border-danger': errors.name}" type="text" placeholder="Name" v-model="newProduct.name" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input class="form-control" :class="{'border-danger': errors.quantity}" type="number" placeholder="Cantidad" v-model="newProduct.quantity" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input class="form-control" :class="{'border-danger': errors.price}" type="number" placeholder="Precio" v-model="newProduct.price" required>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <button class="btn btn-outline-primary" type="submit">Agregar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
